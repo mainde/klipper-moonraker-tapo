@@ -16,15 +16,7 @@ Here's how:
 1. Install the Python package "PyP100", specifically this fork https://github.com/almottier/TapoP100 because https://pypi.org/project/PyP100/ is unmaintained and does not work anymore due to changes to the Tapo authentication mechanism.
    
    `pip3 install git+https://github.com/almottier/TapoP100.git@main`
-2. I had to change one file after installing the PyP100 fork, `/home/pi/.local/lib/python3.9/site-packages/PyP100/PyP100.py` on line 39, make the exception string use only one line, like so:
-   ```
-                   except:
-                    log.exception(
-                        f"Failed to initialize protocol {protocol_class.__name__}"
-                    )
-   ```
-   I submitted a PR to fix this, until it's merged you can fix this line in case you get `"SyntaxError: EOL while scanning string literal"`
-3. Save this script somewhere, for example `/home/pi/tapo/server.py`, then edit the `TAPO_ADDRESS`, `TAPO_USERNAME`, `TAPO_PASSWORD` fields appropriately.
+2. Save this script somewhere, for example `/home/pi/tapo/server.py`, then edit the `TAPO_ADDRESS`, `TAPO_USERNAME`, `TAPO_PASSWORD` fields appropriately.
 
 ⚠ **Note:** this is the code for the `P110`, you'll probably need to read the PyP100 docs and change a couple of lines if your plug is not the same.
   ```python3
@@ -85,8 +77,8 @@ Here's how:
       except KeyboardInterrupt:
           pass
   ```
-4. Make the script executable `chmod +x /home/pi/tapo/server.py`.
-5. Make the script autostart, create a service with your editor of choice, e.g. `sudo nano /etc/systemd/system/tapo.service`
+3. Make the script executable `chmod +x /home/pi/tapo/server.py`.
+4. Make the script autostart, create a service with your editor of choice, e.g. `sudo nano /etc/systemd/system/tapo.service`
   ```
   [Unit]
   Description=Tapo HTTP server
@@ -103,8 +95,8 @@ Here's how:
   [Install]
   WantedBy=multi-user.target
  ```
-6. Start your service `service tapo start`, if something goes wrong you can check status `service tapo status` and logs `journalctl -u tapo`.
-7. Open in Mainsail/Fluidd your `Moonraker.cfg`, add this at the end:
+5. Start your service `service tapo start`, if something goes wrong you can check status `service tapo status` and logs `journalctl -u tapo`.
+6. Open in Mainsail/Fluidd your `Moonraker.cfg`, add this at the end:
 ```
 [power Printer TapoP110]
 type: http
@@ -119,4 +111,4 @@ response_template:
     {"off"}
   {% endif %}
 ```
-8. Restart Moonracker and that should be all.
+7. Restart Moonraker and that should be all.
