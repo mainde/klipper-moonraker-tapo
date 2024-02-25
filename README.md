@@ -22,7 +22,7 @@ Here's how:
                     )
    ```
    I submitted a PR to fix this, until it's merged you can fix this line in case you get `"SyntaxError: EOL while scanning string literal"`
-3. Save this script somewhere, for example `/home/pi/tapo/server.py`, then edit the `TAPO_ADDRESS`, `TAPO_USERNAME`, `TAPO_PASSWORD` fields approrpiately.
+3. Save this script somewhere, for example `/home/pi/tapo/server.py`, then edit the `TAPO_ADDRESS`, `TAPO_USERNAME`, `TAPO_PASSWORD` fields appropriately.
 
 **Note:** this is the code for the `P110`, you'll probably need to read the PyP100 docs and change a couple of lines if your plug is not the same.
   ```python3
