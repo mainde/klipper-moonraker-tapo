@@ -104,7 +104,7 @@ Here's how:
   WantedBy=multi-user.target
  ```
 6. Start your service `service tapo start`, if something goes wrong you can check status `service tapo status` and logs `journalctl -u tapo`.
-7. Open in Mainsail/Fluidd your `Moonracker.cfg`, add this at the end:
+7. Open in Mainsail/Fluidd your `Moonraker.cfg`, add this at the end:
 ```
 [power Printer TapoP110]
 type: http
