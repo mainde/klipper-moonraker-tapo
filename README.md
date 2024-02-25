@@ -96,7 +96,7 @@ Here's how:
   WantedBy=multi-user.target
  ```
 5. Start your service `service tapo start`, if something goes wrong you can check status `service tapo status` and logs `journalctl -u tapo`.
-6. Open in Mainsail/Fluidd your `Moonraker.cfg`, add this at the end:
+6. Open in Mainsail/Fluidd your `Moonraker.cfg`, add this at the end (and maybe customise the device name just after "power"):
 ```
 [power Printer TapoP110]
 type: http
@@ -123,7 +123,7 @@ on_when_job_queued: True
 
 Optional Klipper auto power off, courtesy of https://github.com/Arksine/moonraker/issues/167#issuecomment-1094223802
 
-Add to `Printer.cfg` or any Klipper config:
+Add to `Printer.cfg` or any Klipper config, adjust device name if needed:
 ```
 [idle_timeout]
 timeout: 600
