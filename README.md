@@ -3,15 +3,17 @@ How to control a Tapo Smart Plug via Moonraker
 
 ![image](https://github.com/mainde/klipper-moonraker-tapo/assets/14027750/0227d972-d46c-45f4-98c7-80764b22b9da)
 
-There's no proper support for Tapo smart plugs in Moonraker, the only solution I've seen wanted me to install Home Assistant which feels a bit much. 
+👎 There's no proper support for Tapo smart plugs in Moonraker, the only solution I've seen wanted me to install Home Assistant which feels a bit much. 
 
-There is a Python library for controlling Tapo smart plugs which is extremely easy to use and works well, however somehow Moonraker does not allow running arbitrary script on its host, or I couldn't find a way to do it, which is quite bizarre. Klipper can run macros, but these only run if the MCU is connected, which requires the power to be on in the first place. 
+👎 There is a Python library for controlling Tapo smart plugs which is extremely easy to use and works well, however somehow Moonraker does not allow running arbitrary script on its host, or I couldn't find a way to do it, which is quite bizarre. 
 
-Luckily the `power` section of Moonraker's config allows arbitrary http requests (even if `type: http` is, confusingly, not explicitly called out as supported in the documentation), a Python script with a tiny HTTP server attached can be used to control the smart plug, creating the following abomination:
-Mainsail/Fluidd -> Moonraker -> Python HTTP Server using _(a fork of)_ PyP100 -> Tapo Smart Plug
+👎 Klipper can run macros, but these only run if the MCU is connected, which requires the power to be on in the first place. 
+
+🍀 Luckily the `power` section of Moonraker's config allows arbitrary http requests (even if `type: http` is, confusingly, not explicitly called out as supported in the documentation), a Python script with a tiny HTTP server attached can be used to control the smart plug, creating the following abomination:
+- Mainsail/Fluidd ➡ Moonraker ➡ Python HTTP Server using _(a fork of)_ PyP100 ➡ Tapo Smart Plug
 
 Here's how:
-1. Install the Python package "PyP100", specifically this fork https://github.com/almottier/TapoP100 because https://pypi.org/project/PyP100/ is unmaintained and does not work anymore due to changes to the authentication mechanism.
+1. Install the Python package "PyP100", specifically this fork https://github.com/almottier/TapoP100 because https://pypi.org/project/PyP100/ is unmaintained and does not work anymore due to changes to the Tapo authentication mechanism.
    
    `pip3 install git+https://github.com/almottier/TapoP100.git@main`
 2. I had to change one file after installing the PyP100 fork, `/home/pi/.local/lib/python3.9/site-packages/PyP100/PyP100.py` on line 39, make the exception string use only one line, like so:
@@ -24,7 +26,7 @@ Here's how:
    I submitted a PR to fix this, until it's merged you can fix this line in case you get `"SyntaxError: EOL while scanning string literal"`
 3. Save this script somewhere, for example `/home/pi/tapo/server.py`, then edit the `TAPO_ADDRESS`, `TAPO_USERNAME`, `TAPO_PASSWORD` fields appropriately.
 
-**Note:** this is the code for the `P110`, you'll probably need to read the PyP100 docs and change a couple of lines if your plug is not the same.
+⚠ **Note:** this is the code for the `P110`, you'll probably need to read the PyP100 docs and change a couple of lines if your plug is not the same.
   ```python3
   #!/usr/bin/python3
   
