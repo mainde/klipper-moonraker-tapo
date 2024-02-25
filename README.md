@@ -112,3 +112,43 @@ response_template:
   {% endif %}
 ```
 7. Restart Moonraker and that should be all.
+
+Optional goodies for `Moonraker.cfg`, to add below `[power Printer TapoP110]`
+```
+off_when_shutdown: True
+locked_while_printing: False
+restart_klipper_when_powered: True
+on_when_job_queued: True
+```
+
+Optional Klipper auto power off, courtesy of https://github.com/Arksine/moonraker/issues/167#issuecomment-1094223802
+
+Add to `Printer.cfg` or any Klipper config:
+```
+[idle_timeout]
+timeout: 600
+gcode:
+  MACHINE_IDLE_TIMEOUT
+
+# Turn on PSU
+[gcode_macro M80]
+gcode:
+  # Moonraker action
+  {action_call_remote_method('set_device_power',
+                             device='Printer Tapo P110',
+                             state='on')}
+
+# Turn off PSU
+[gcode_macro M81]
+gcode:
+  # Moonraker action
+  {action_call_remote_method('set_device_power',
+                             device='Printer Tapo P110',
+                             state='off')}
+
+[gcode_macro MACHINE_IDLE_TIMEOUT]
+gcode:
+  M84
+  TURN_OFF_HEATERS
+  M81
+```
