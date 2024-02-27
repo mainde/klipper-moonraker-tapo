@@ -10,9 +10,10 @@ How to control a Tapo Smart Plug via Moonraker
 👎 Klipper can run macros, but these only run if the MCU is connected, which requires the power to be on in the first place. 
 
 🍀 Luckily the `power` section of Moonraker's config allows arbitrary http requests (even if `type: http` is, confusingly, not explicitly called out as supported in the documentation), a Python script with a tiny HTTP server attached can be used to control the smart plug, creating the following abomination:
-- Mainsail/Fluidd ➡ Moonraker ➡ Python HTTP Server using _(a fork of)_ PyP100 ➡ Tapo Smart Plug
 
-Here's how:
+![image](https://github.com/mainde/klipper-moonraker-tapo/assets/14027750/53c66c34-07c6-4b11-ad28-6f5695ebb6e8)
+
+# Here's how:
 1. Install the Python package "PyP100", specifically this fork https://github.com/almottier/TapoP100 because https://pypi.org/project/PyP100/ is unmaintained and does not work anymore due to changes to the Tapo authentication mechanism.
    
    `pip3 install git+https://github.com/almottier/TapoP100.git@main`
@@ -65,7 +66,7 @@ Here's how:
   if __name__ == '__main__':
       server_class = HTTPServer
       handler_class = MyHttpRequestHandler
-      server_address = ('127.0.0.1', 8000)
+      server_address = ('127.0.0.1', 56427)
   
       httpd = server_class(server_address, handler_class)
       # intentionally making it slow, it doesn't need to react quickly
@@ -100,9 +101,9 @@ Here's how:
 ```
 [power Printer TapoP110]
 type: http
-on_url: http://localhost:8000/on
-off_url: http://localhost:8000/off
-status_url: http://localhost:8000/
+on_url: http://localhost:56427/on
+off_url: http://localhost:56427/off
+status_url: http://localhost:56427/
 response_template:
   {% set resp = http_request.last_response().json() %}
   {% if resp["device_on"] %}
