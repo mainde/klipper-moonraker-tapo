@@ -135,7 +135,7 @@ gcode:
 gcode:
   # Moonraker action
   {action_call_remote_method('set_device_power',
-                             device='Printer Tapo P110',
+                             device='Printer TapoP110',
                              state='on')}
 
 # Turn off PSU
@@ -143,7 +143,7 @@ gcode:
 gcode:
   # Moonraker action
   {action_call_remote_method('set_device_power',
-                             device='Printer Tapo P110',
+                             device='Printer TapoP110',
                              state='off')}
 
 [gcode_macro MACHINE_IDLE_TIMEOUT]
