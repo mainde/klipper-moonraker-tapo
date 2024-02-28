@@ -96,7 +96,7 @@ How to control a Tapo Smart Plug via Moonraker
   [Install]
   WantedBy=multi-user.target
  ```
-5. Start your service `service tapo start`, if something goes wrong you can check status `service tapo status` and logs `journalctl -u tapo`.
+5. Start your service `service tapo start`, if something goes wrong you can check status `service tapo status` and logs `journalctl -u tapo`. Then enable it so it autostarts `systemctl enable tapi.service`
 6. Open in Mainsail/Fluidd your `Moonraker.cfg`, add this at the end (and maybe customise the device name just after "power"):
 ```
 [power Printer TapoP110]
