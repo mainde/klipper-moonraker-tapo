@@ -1,3 +1,5 @@
+# wip - this script will need rebooting every few days of idle until I make a change
+
 # klipper-moonraker-tapo
 How to control a Tapo Smart Plug via Moonraker
 
