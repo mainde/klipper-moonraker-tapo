@@ -1,5 +1,3 @@
-# wip - this script will need rebooting every few days of idle until I make a change
-
 # klipper-moonraker-tapo
 How to control a Tapo Smart Plug via Moonraker
 
@@ -56,11 +54,19 @@ How to control a Tapo Smart Plug via Moonraker
           self.send_header('Content-type', 'application/json')
           self.end_headers()
   
-          if self.path == "/on":
-              p100.turnOn()
-          elif self.path == "/off":
-              p100.turnOff()
-  
+          try:
+             if self.path == "/on":
+                 p100.turnOn()
+             elif self.path == "/off":
+                 p100.turnOff()
+          except Exception as e:  # YOLO
+             p100.handshake()
+             p100.login()
+             if self.path == "/on":
+                 p100.turnOn()
+             elif self.path == "/off":
+                 p100.turnOff()
+ 
           self.wfile.write(json.dumps(p100.getDeviceInfo()).encode("utf-8"))
           return
   
