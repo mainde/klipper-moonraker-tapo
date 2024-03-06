@@ -67,7 +67,12 @@ How to control a Tapo Smart Plug via Moonraker
              elif self.path == "/off":
                  p100.turnOff()
  
-          self.wfile.write(json.dumps(p100.getDeviceInfo()).encode("utf-8"))
+          try:
+             self.wfile.write(json.dumps(p100.getDeviceInfo()).encode("utf-8"))
+          except Exception as e:  # YOLO^2, apparently turnOn and turnOff don't raise this exception
+             p100.handshake()
+             p100.login()
+             self.wfile.write(json.dumps(p100.getDeviceInfo()).encode("utf-8"))
           return
   
   
