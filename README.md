@@ -49,30 +49,27 @@ How to control a Tapo Smart Plug via Moonraker
   
   class MyHttpRequestHandler(SimpleHTTPRequestHandler):
   
-      def do_GET(self):
-          self.send_response(200)
-          self.send_header('Content-type', 'application/json')
-          self.end_headers()
-  
-          try:
-             if self.path == "/on":
-                 p100.turnOn()
-             elif self.path == "/off":
-                 p100.turnOff()
-          except Exception as e:  # YOLO
-             p100.handshake()
-             p100.login()
-             if self.path == "/on":
-                 p100.turnOn()
-             elif self.path == "/off":
-                 p100.turnOff()
- 
-          try:
-             self.wfile.write(json.dumps(p100.getDeviceInfo()).encode("utf-8"))
-          except Exception as e:  # YOLO^2, apparently turnOn and turnOff don't raise this exception
-             p100.handshake()
-             p100.login()
-             self.wfile.write(json.dumps(p100.getDeviceInfo()).encode("utf-8"))
+        def do_GET(self):
+           self.send_response(200)
+           self.send_header('Content-type', 'application/json')
+           self.end_headers()
+
+           global p100  # hack to fight Tapo session expiry, somehow just redoing handhsake and login doesn't work
+           try:
+               if self.path == "/on":
+                   p100.turnOn()
+               elif self.path == "/off":
+                   p100.turnOff()
+               self.wfile.write(json.dumps(p100.getDeviceInfo()).encode("utf-8"))
+           except Exception as e:  # YOLO
+               p100 = PyP110.P110(TAPO_ADDRESS, TAPO_USERNAME, TAPO_PASSWORD)
+               p100.handshake()
+               p100.login()
+               if self.path == "/on":
+                   p100.turnOn()
+               elif self.path == "/off":
+                   p100.turnOff()
+            self.wfile.write(json.dumps(p100.getDeviceInfo()).encode("utf-8"))
           return
   
   
