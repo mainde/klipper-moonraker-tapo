@@ -1,7 +1,10 @@
 # klipper-moonraker-tapo
 How to control a Tapo Smart Plug via Moonraker
 
-![image](https://github.com/mainde/klipper-moonraker-tapo/assets/14027750/0227d972-d46c-45f4-98c7-80764b22b9da)
+
+
+![image](https://github.com/user-attachments/assets/5460d8dd-af88-4082-9ab7-d90816550691)
+![PrinterTurnOn](https://github.com/user-attachments/assets/8f0fbed1-637a-4e19-8a59-028b1c947fa2)
 
 👎 There's no proper support for Tapo smart plugs in Moonraker, the only solution I've seen wanted me to install Home Assistant which feels a bit much. 
 
@@ -109,7 +112,7 @@ How to control a Tapo Smart Plug via Moonraker
 5. Start your service `service tapo start`, if something goes wrong you can check status `service tapo status` and logs `journalctl -u tapo`. Then enable it so it autostarts `systemctl enable tapo.service`
 6. Open in Mainsail/Fluidd your `Moonraker.cfg`, add this at the end (and maybe customise the device name just after "power"):
 ```
-[power Printer TapoP110]
+[power printer]
 type: http
 on_url: http://localhost:56427/on
 off_url: http://localhost:56427/off
@@ -121,10 +124,11 @@ response_template:
   {% else %}
     {"off"}
   {% endif %}
+bound_services: klipper
 ```
 7. Restart Moonraker and that should be all.
 
-Optional goodies for `Moonraker.cfg`, to add below `[power Printer TapoP110]`
+Optional goodies for `Moonraker.cfg`, to add below `[power printer]`
 ```
 off_when_shutdown: True
 locked_while_printing: False
@@ -146,7 +150,7 @@ gcode:
 gcode:
   # Moonraker action
   {action_call_remote_method('set_device_power',
-                             device='Printer TapoP110',
+                             device='printer',
                              state='on')}
 
 # Turn off PSU
@@ -154,7 +158,7 @@ gcode:
 gcode:
   # Moonraker action
   {action_call_remote_method('set_device_power',
-                             device='Printer TapoP110',
+                             device='printer',
                              state='off')}
 
 [gcode_macro MACHINE_IDLE_TIMEOUT]
