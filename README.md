@@ -16,7 +16,6 @@ How to control a Tapo Smart Plug via Moonraker
 
 ![image](https://github.com/mainde/klipper-moonraker-tapo/assets/14027750/53c66c34-07c6-4b11-ad28-6f5695ebb6e8)
 
-
 # Here's how:
 1. Install the Python package "PyP100", specifically this fork https://github.com/almottier/TapoP100 because https://pypi.org/project/PyP100/ is unmaintained and does not work anymore due to changes to the Tapo authentication mechanism.
    
