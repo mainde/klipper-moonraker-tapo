@@ -92,7 +92,9 @@ How to control a Tapo Smart Plug via Moonraker
           pass
   ```
 3. Make the script executable `chmod +x /home/pi/tapo/server.py`.
-4. Make the script autostart, create a service with your editor of choice, e.g. `sudo nano /etc/systemd/system/tapo.service`
+4. Make the script autostart, create a service with your editor of choice, e.g. `sudo nano /etc/systemd/system/tapo.service`.
+   
+⚠ **Note:** if your linux username and group are not `pi` then you need to update `User` and `Group`, under `[Service]`, to your new username or any other valid one.
   ```
   [Unit]
   Description=Tapo HTTP server
